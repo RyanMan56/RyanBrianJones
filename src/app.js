@@ -1,3 +1,7 @@
+import { black } from "./colors";
+
+console.log(black);
+
 const app = new WHS.App([
   new WHS.ElementModule(),
   new WHS.SceneModule(),
@@ -10,7 +14,19 @@ const app = new WHS.App([
       }
     })
   ),
-  new WHS.RenderingModule({ bgColor: 0x162129 }),
+  new WHS.RenderingModule(
+    {
+      bgColor: black,
+
+      renderer: {
+        antialias: true,
+        shadowmap: {
+          type: THREE.PCFSoftShadowMap
+        }
+      }
+    },
+    { shadow: true }
+  ),
   new WHS.ResizeModule()
 ]);
 

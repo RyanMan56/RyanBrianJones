@@ -1,45 +1,38 @@
-import { black, purple } from "./colors";
+import {
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  BoxGeometry,
+  MeshBasicMaterial,
+  Mesh
+} from "three";
+import { black, purple, lightSkyBlue } from "./colors";
 
-const app = new WHS.App([
-  new WHS.ElementModule(),
-  new WHS.SceneModule(),
-  new WHS.DefineModule(
-    "camera",
-    new WHS.PerspectiveCamera({
-      position: {
-        y: 10,
-        z: 50
-      }
-    })
-  ),
-  new WHS.RenderingModule(
-    {
-      bgColor: purple,
+const scene = new Scene();
+const camera = new PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  100
+);
 
-      renderer: {
-        antialias: true,
-        shadowmap: {
-          type: THREE.PCFSoftShadowMap
-        }
-      }
-    },
-    { shadow: true }
-  ),
-  new WHS.ResizeModule()
-]);
+const renderer = new WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-const box = new WHS.Box({
-  geometry: {
-    width: 20,
-    height: 20,
-    depth: 20
-  },
-  material: new THREE.MeshBasicMaterial({
-    color: black
-  }),
-  position: [0, 0, 0]
-});
+const geometry = new BoxGeometry(1, 1, 1);
+const material = new MeshBasicMaterial({ color: purple });
+const cube = new Mesh(geometry, material);
+scene.add(cube);
 
-box.addTo(app);
+camera.position.z = 5;
 
-app.start();
+const animate = () => {
+  requestAnimationFrame(animate);
+
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
+};
+animate();

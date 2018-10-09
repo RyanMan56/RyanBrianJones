@@ -1,6 +1,4 @@
-import { black } from "./colors";
-
-console.log(black);
+import { black, purple } from "./colors";
 
 const app = new WHS.App([
   new WHS.ElementModule(),
@@ -16,7 +14,7 @@ const app = new WHS.App([
   ),
   new WHS.RenderingModule(
     {
-      bgColor: black,
+      bgColor: purple,
 
       renderer: {
         antialias: true,
@@ -37,7 +35,7 @@ const box = new WHS.Box({
     depth: 20
   },
   material: new THREE.MeshBasicMaterial({
-    color: 0xffffff
+    color: black
   }),
   position: [0, 0, 0]
 });

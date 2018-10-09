@@ -3,6 +3,9 @@ import {
   PerspectiveCamera,
   WebGLRenderer,
   BoxGeometry,
+  EdgesGeometry,
+  LineSegments,
+  LineBasicMaterial,
   MeshBasicMaterial,
   Mesh
 } from "three";
@@ -18,12 +21,21 @@ const camera = new PerspectiveCamera(
 
 const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(purple, 1);
 document.body.appendChild(renderer.domElement);
 
 const geometry = new BoxGeometry(1, 1, 1);
-const material = new MeshBasicMaterial({ color: purple });
+const material = new MeshBasicMaterial({ color: black });
 const cube = new Mesh(geometry, material);
 scene.add(cube);
+
+const edges = new EdgesGeometry(geometry);
+const line = new LineSegments(
+  edges,
+  new LineBasicMaterial({ color: lightSkyBlue })
+);
+
+cube.add(line);
 
 camera.position.z = 5;
 

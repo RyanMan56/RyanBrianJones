@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import BaseScene from './base-scene';
-import Block from '../components/block';
+import Block from '../components/basic/block';
+import House from '../components/structures/house';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -16,9 +17,10 @@ class ModelViewer extends BaseScene {
     const { scene, camera, renderer } = this;
     const controls = new OrbitControls(camera);
 
-    const block = new Block({ dimensions: new Vector3(1, 2, 1) });
+    // const block = new Block({ dimensions: new Vector3(1, 2, 1) });
+    const house = new House();
 
-    scene.add(block);
+    scene.add(house);
 
     camera.position.z = 5;
 

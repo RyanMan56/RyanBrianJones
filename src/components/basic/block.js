@@ -26,10 +26,9 @@ class Block {
 
   create() {
     const {
-      color, lineColor, dimensions, position,
+      color, lineColor, dimensions, segments, position,
     } = this;
-    const { x, y, z } = dimensions;
-    const geometry = new BoxGeometry(x, y, z);
+    const geometry = new BoxGeometry(dimensions.x, dimensions.y, dimensions.z);
     const material = new MeshBasicMaterial({ color });
     const cube = new Mesh(geometry, material);
     cube.position.set(position.x, position.y, position.z);

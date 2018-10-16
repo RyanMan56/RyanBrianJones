@@ -9,7 +9,7 @@ class House {
   create() {
     const group = new Group();
     for (let i = 0; i < 4; i++) {
-      group.add(new Block({ position: new Vector3(0, 0, i * 1) }));
+      group.add(new Block({ position: new Vector3(0, 0, i) }));
     }
     return group;
   }

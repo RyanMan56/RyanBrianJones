@@ -117,7 +117,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _core_model_viewer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/model-viewer */ \"./src/core/model-viewer.js\");\n\n\nconst modelViewer = new _core_model_viewer__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _core_model_viewer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/model-viewer */ \"./src/core/model-viewer.js\");\n\r\n\r\nconst modelViewer = new _core_model_viewer__WEBPACK_IMPORTED_MODULE_0__[\"default\"]();\r\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -129,7 +129,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _cor
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"richBlack\", function() { return richBlack; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"frenchMauve\", function() { return frenchMauve; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"lightSkyBlue\", function() { return lightSkyBlue; });\nconst richBlack = 0x070618;\nconst frenchMauve = 0xc774e8;\nconst lightSkyBlue = 0x94d0ff;\n\n\n//# sourceURL=webpack:///./src/colors.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"richBlack\", function() { return richBlack; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"frenchMauve\", function() { return frenchMauve; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"lightSkyBlue\", function() { return lightSkyBlue; });\nconst richBlack = 0x070618;\r\nconst frenchMauve = 0xc774e8;\r\nconst lightSkyBlue = 0x94d0ff;\r\n\n\n//# sourceURL=webpack:///./src/colors.js?");
 
 /***/ }),
 

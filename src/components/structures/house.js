@@ -8,9 +8,14 @@ class House {
 
   create() {
     const group = new Group();
-    for (let i = 0; i < 4; i++) {
-      group.add(new Block({ position: new Vector3(0, 0, i) }));
-    }
+    group.add(
+      new Block({
+        position: new Vector3(0, 0, 0),
+        dimensions: new Vector3(4, 1, 1),
+        sections: new Vector3(4, 1, 1),
+        margin: 1,
+      }),
+    );
     return group;
   }
 }

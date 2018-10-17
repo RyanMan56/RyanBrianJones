@@ -11,9 +11,11 @@ class House {
     group.add(
       new Block({
         position: new Vector3(0, 0, 0),
-        dimensions: new Vector3(4, 1, 1),
-        sections: new Vector3(4, 1, 1),
-        margin: 1,
+        dimensions: new Vector3(4, 4, 4),
+        sections: new Vector3(4, 8, 4),
+        marginX: 1,
+        marginY: 1,
+        marginZ: 1,
       }),
     );
     return group;

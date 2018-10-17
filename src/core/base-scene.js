@@ -6,7 +6,7 @@ class BaseScene {
     const scene = new Scene();
     const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
 
-    const renderer = new WebGLRenderer();
+    const renderer = new WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(frenchMauve, 1);
     renderer.domElement.id = 'canvas';

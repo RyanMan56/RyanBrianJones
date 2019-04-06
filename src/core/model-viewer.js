@@ -18,11 +18,15 @@ class ModelViewer extends BaseScene {
     const { scene, camera, renderer } = this;
     const controls = new OrbitControls(camera);
 
-    const model = new House();
-    const door = new Door();
+    const house = new House();
+    const door = new Door({
+      position: new Vector3(0, 0, 1.5),
+      width: 0.5,
+      height: 1,
+    });
 
-    scene.add(model);
-    scene.add(door);
+    scene.add(house);
+    house.add(door);
 
     camera.position.z = 5;
 

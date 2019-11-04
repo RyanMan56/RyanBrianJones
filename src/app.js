@@ -1,3 +1,3 @@
-import ModelViewer from './core/model-viewer';
+import BaseScene from './core/base-scene';
 
-const modelViewer = new ModelViewer();
+new BaseScene();

@@ -1,12 +1,9 @@
 import * as THREE from 'three';
 import BaseScene from './base-scene';
 import Block from '../components/basic/block';
-import House from '../components/structures/house';
-import Door from '../components/basic/door';
+import { frenchMauve } from '../colors';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
-
-const { Vector3 } = THREE;
 
 class ModelViewer extends BaseScene {
   constructor() {
@@ -18,15 +15,9 @@ class ModelViewer extends BaseScene {
     const { scene, camera, renderer } = this;
     const controls = new OrbitControls(camera);
 
-    const house = new House();
-    const door = new Door({
-      position: new Vector3(0, 0, 1.5),
-      width: 0.5,
-      height: 1,
-    });
+    const block = new Block({ lineColor: frenchMauve });
 
-    scene.add(house);
-    house.add(door);
+    scene.add(block);
 
     camera.position.z = 5;
 

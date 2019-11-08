@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { frenchMauve, richBlack, white } from '../colors';
-import Block from '../components/basic/block';
+import Block from '../components/basic/outlined-block';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -17,12 +17,10 @@ class BaseScene {
 
   init() {
     // Set up renderer
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-
+    const canvas = document.querySelector('#canvas');
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setClearColor(richBlack, 1);
-    this.renderer.domElement.id = 'canvas';
-    document.body.appendChild(this.renderer.domElement);
 
     // Create scene and camera
     this.scene = new THREE.Scene();
@@ -38,43 +36,69 @@ class BaseScene {
 
     // controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    // this.controls.enableZoom = true;
-    // this.controls.enablePan = true;
-    // this.controls.enableRotate = false;
-    // this.controls.maxPolarAngle = Math.PI / 2;
     this.controls.mouseButtons = {
       ZOOM: THREE.MOUSE.MIDDLE,
       PAN: THREE.MOUSE.LEFT,
       ORBIT: THREE.MOUSE.RIGHT,
     };
 
+    const base = new Block({
+      color: 0x20074e,
+      dimensions: new THREE.Vector3(1, 0.2, 4),
+      position: new THREE.Vector3(0, -0.6, 0),
+      disableLines: true,
+    });
     const block = new Block({
+      color: 0x202181,
       lineColor: frenchMauve,
       dimensions: new THREE.Vector3(1, 2, 1),
       position: new THREE.Vector3(0, 0.5, 0),
+      disableLines: true,
     });
     const pavement1 = new Block({
-      dimensions: new THREE.Vector3(1, 0.1, 4),
-      position: new THREE.Vector3(0, -0.55, 0),
+      color: 0x411186,
+      dimensions: new THREE.Vector3(0.5, 0.2, 4),
+      position: new THREE.Vector3(0.75, -0.6, 0),
+      disableLines: true,
     });
     const road = new Block({
-      color: white,
+      color: 0x2e127b,
       dimensions: new THREE.Vector3(1, 0.1, 4),
-      position: new THREE.Vector3(1, -0.55, 0),
+      position: new THREE.Vector3(1.5, -0.65, 0),
+      disableLines: true,
     });
     const pavement2 = new Block({
-      dimensions: new THREE.Vector3(1, 0.1, 4),
-      position: new THREE.Vector3(2, -0.55, 0),
+      color: 0x411186,
+      dimensions: new THREE.Vector3(0.5, 0.2, 4),
+      position: new THREE.Vector3(2.25, -0.6, 0),
+      disableLines: true,
     });
+    this.scene.add(base);
     this.scene.add(block);
     this.scene.add(pavement1);
     this.scene.add(road);
     this.scene.add(pavement2);
 
-    this.scene.add(new THREE.AmbientLight(0x444444));
-    const light = new THREE.PointLight(0xffffff, 0.8);
-    light.position.set(0, 0, 0);
+    this.scene.add(new THREE.AmbientLight(0xffffff, 1));
+    // const light = new THREE.PointLight(0xffffff, 0.8);
+    // light.position.set(0, 0, 0);
+    // this.scene.add(light);
+
+    // const sphere = new THREE.SphereBufferGeometry(0.5, 16, 8);
+    // // lights
+    // const light1 = new THREE.PointLight(0xff0040, 2, 50);
+    // light1.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xff0040 })));
+    // light1.position.set(new THREE.Vector3(1, 1, 1));
+    // this.scene.add(light1);
+
+    // const color = 0x92f1fe;
+    const color = 0xff0000;
+    const intensity = 0.8;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(0, 10, 5);
+    light.target.position.set(0, 0, 0);
     this.scene.add(light);
+    this.scene.add(light.target);
 
     window.addEventListener('resize', () => {
       this.camera.aspect = window.innerWidth / window.innerHeight;

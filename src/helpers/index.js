@@ -4,11 +4,13 @@ export function addDirectionalLight({
   scene,
   color,
   intensity,
+  distance = 0,
   position,
   targetPosition = new Vector3(0, 0, 0),
   shouldCreateHelper = false,
 }) {
   const light = new DirectionalLight(color, intensity);
+  light.distance = distance;
   light.position.set(position.x, position.y, position.z);
   light.target.position.set(targetPosition.x, targetPosition.y, targetPosition.z);
   scene.add(light);

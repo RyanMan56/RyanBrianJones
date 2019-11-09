@@ -1,9 +1,10 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as dat from 'dat.gui';
 import { richBlack } from '../colors';
 import Block from '../components/basic/block';
 import ColorGUIHelper from '../helpers/ColorGUIHelper';
-import { addDirectionalLight } from '../helpers';
+import { addDirectionalLight, addPointLight } from '../helpers';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -26,8 +27,12 @@ class BaseScene {
     folder.open();
   }
 
-  updateLight(light, helper) {
+  updateDirectionalLight(light, helper) {
     light.target.updateMatrixWorld();
+    helper.update();
+  }
+
+  updatePointLight(helper) {
     helper.update();
   }
 
@@ -81,8 +86,8 @@ class BaseScene {
     });
     const road = new Block({
       color: 0x2e127b,
-      dimensions: new THREE.Vector3(1, 0.1, 4),
-      position: new THREE.Vector3(1.5, -0.65, 0),
+      dimensions: new THREE.Vector3(1, 0.15, 4),
+      position: new THREE.Vector3(1.5, -0.625, 0),
     });
     const pavement2 = new Block({
       color: 0x411186,
@@ -101,6 +106,15 @@ class BaseScene {
     this.scene.add(pavement2);
     this.scene.add(base2);
 
+    const loader = new GLTFLoader();
+    loader.load('assets/lamp.gltf', (gltf) => {
+      gltf.scene.position.set(0.4, -0.5, 0.8);
+      console.log(gltf);
+      this.scene.add(gltf.scene);
+    }, undefined, (error) => {
+      console.error(error);
+    });
+
     this.scene.add(new THREE.AmbientLight(0xffffff, 1));
 
     const gui = new dat.GUI();
@@ -113,10 +127,25 @@ class BaseScene {
       shouldCreateHelper: true,
     });
 
+    const { light: pointLight, helper: pointLightHelper } = addPointLight({
+      scene: this.scene,
+      // color: 0xfff000 // yellow
+      color: 0x72ffff,
+      intensity: 0.3,
+      distance: 0.4,
+      position: new THREE.Vector3(1, 1, -0.9),
+      shouldCreateHelper: true,
+    });
+
     gui.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('directional light color');
     gui.add(directionalLight, 'intensity', 0, 2, 0.01);
-    this.makeXYZGUI(gui, directionalLight.position, 'position', () => this.updateLight(directionalLight, directionalLightHelper));
-    this.makeXYZGUI(gui, directionalLight.target.position, 'target', () => this.updateLight(directionalLight, directionalLightHelper));
+    this.makeXYZGUI(gui, directionalLight.position, 'directional light position', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
+    this.makeXYZGUI(gui, directionalLight.target.position, 'directional light target', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
+
+    this.makeXYZGUI(gui, pointLight.position, 'point light position', () => this.updatePointLight(pointLightHelper));
+    gui.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('point light color');
+    gui.add(pointLight, 'intensity', 0, 2, 0.01).name('point light intensity');
+
     gui.add(this, 'resetCamera').name('reset camera');
 
     window.addEventListener('resize', () => {

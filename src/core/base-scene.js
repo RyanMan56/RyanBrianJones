@@ -1,6 +1,9 @@
 import * as THREE from 'three';
-import { frenchMauve, richBlack, white } from '../colors';
-import Block from '../components/basic/outlined-block';
+import * as dat from 'dat.gui';
+import { richBlack } from '../colors';
+import Block from '../components/basic/block';
+import ColorGUIHelper from '../helpers/ColorGUIHelper';
+import { addDirectionalLight } from '../helpers';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -13,6 +16,26 @@ class BaseScene {
 
     this.init.bind(this);
     this.init();
+  }
+
+  makeXYZGUI(gui, vector3, name, onChangeFn) {
+    const folder = gui.addFolder(name);
+    folder.add(vector3, 'x', -10, 10).onChange(onChangeFn);
+    folder.add(vector3, 'y', 0, 10).onChange(onChangeFn);
+    folder.add(vector3, 'z', -10, 10).onChange(onChangeFn);
+    folder.open();
+  }
+
+  updateLight(light, helper) {
+    light.target.updateMatrixWorld();
+    helper.update();
+  }
+
+  resetCamera() {
+    this.camera.position.set(20, 20, 20);
+    this.camera.rotation.order = 'YXZ';
+    this.camera.rotation.y = -Math.PI / 4;
+    this.camera.rotation.x = Math.atan(-1 / Math.sqrt(2));
   }
 
   init() {
@@ -29,10 +52,7 @@ class BaseScene {
     this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
 
     // Set up the camera for isometric projection
-    this.camera.position.set(20, 20, 20);
-    this.camera.rotation.order = 'YXZ';
-    this.camera.rotation.y = -Math.PI / 4;
-    this.camera.rotation.x = Math.atan(-1 / Math.sqrt(2));
+    this.resetCamera();
 
     // controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -42,63 +62,62 @@ class BaseScene {
       ORBIT: THREE.MOUSE.RIGHT,
     };
 
-    const base = new Block({
-      color: 0x20074e,
+    const base1 = new Block({
+      // color: 0x20074e,
+      // color: 0x0e0322,
+      color: 0x160157,
       dimensions: new THREE.Vector3(1, 0.2, 4),
       position: new THREE.Vector3(0, -0.6, 0),
-      disableLines: true,
     });
     const block = new Block({
       color: 0x202181,
-      lineColor: frenchMauve,
       dimensions: new THREE.Vector3(1, 2, 1),
       position: new THREE.Vector3(0, 0.5, 0),
-      disableLines: true,
     });
     const pavement1 = new Block({
       color: 0x411186,
       dimensions: new THREE.Vector3(0.5, 0.2, 4),
       position: new THREE.Vector3(0.75, -0.6, 0),
-      disableLines: true,
     });
     const road = new Block({
       color: 0x2e127b,
       dimensions: new THREE.Vector3(1, 0.1, 4),
       position: new THREE.Vector3(1.5, -0.65, 0),
-      disableLines: true,
     });
     const pavement2 = new Block({
       color: 0x411186,
       dimensions: new THREE.Vector3(0.5, 0.2, 4),
       position: new THREE.Vector3(2.25, -0.6, 0),
-      disableLines: true,
     });
-    this.scene.add(base);
+    const base2 = new Block({
+      color: 0x160157,
+      dimensions: new THREE.Vector3(1, 0.2, 4),
+      position: new THREE.Vector3(3, -0.6, 0),
+    });
+    this.scene.add(base1);
     this.scene.add(block);
     this.scene.add(pavement1);
     this.scene.add(road);
     this.scene.add(pavement2);
+    this.scene.add(base2);
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1));
-    // const light = new THREE.PointLight(0xffffff, 0.8);
-    // light.position.set(0, 0, 0);
-    // this.scene.add(light);
 
-    // const sphere = new THREE.SphereBufferGeometry(0.5, 16, 8);
-    // // lights
-    // const light1 = new THREE.PointLight(0xff0040, 2, 50);
-    // light1.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xff0040 })));
-    // light1.position.set(new THREE.Vector3(1, 1, 1));
-    // this.scene.add(light1);
+    const gui = new dat.GUI();
 
-    // const color = 0x92f1fe;
-    const color = 0xff0000;
-    const intensity = 0.8;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(0, 10, 5);
-    light.target.position.set(0, 0, 0);
-    this.scene.add(light);
-    this.scene.add(light.target);
+    const { light: directionalLight, helper: directionalLightHelper } = addDirectionalLight({
+      scene: this.scene,
+      color: 0xff9500,
+      intensity: 2,
+      position: new THREE.Vector3(0, 7, 5.1),
+      shouldCreateHelper: true,
+    });
+
+    gui.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('directional light color');
+    gui.add(directionalLight, 'intensity', 0, 2, 0.01);
+    this.makeXYZGUI(gui, directionalLight.position, 'position', () => this.updateLight(directionalLight, directionalLightHelper));
+    this.makeXYZGUI(gui, directionalLight.target.position, 'target', () => this.updateLight(directionalLight, directionalLightHelper));
+    gui.add(this, 'resetCamera').name('reset camera');
 
     window.addEventListener('resize', () => {
       this.camera.aspect = window.innerWidth / window.innerHeight;

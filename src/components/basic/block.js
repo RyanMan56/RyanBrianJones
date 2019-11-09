@@ -1,4 +1,6 @@
-import { Vector3, BoxGeometry } from 'three';
+import {
+  Vector3, BoxGeometry, MeshPhongMaterial, Mesh,
+} from 'three';
 import { richBlack } from '../../colors';
 
 class Block {
@@ -16,6 +18,12 @@ class Block {
   create() {
     const { color, position, dimensions } = this;
     const geometry = new BoxGeometry(dimensions.x, dimensions.y, dimensions.z);
+
+    const material = new MeshPhongMaterial({ color });
+    const cube = new Mesh(geometry, material);
+    cube.position.set(position.x, position.y, position.z);
+
+    return cube;
   }
 }
 

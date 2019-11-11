@@ -5,6 +5,7 @@ import { richBlack } from '../colors';
 import Block from '../components/basic/block';
 import ColorGUIHelper from '../helpers/ColorGUIHelper';
 import { addDirectionalLight, addPointLight } from '../helpers';
+import CityTile from '../components/structures/city-tile';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -67,53 +68,25 @@ class BaseScene {
       ORBIT: THREE.MOUSE.RIGHT,
     };
 
-    const base1 = new Block({
-      // color: 0x20074e,
-      // color: 0x0e0322,
-      color: 0x160157,
-      dimensions: new THREE.Vector3(1, 0.2, 4),
-      position: new THREE.Vector3(0, -0.6, 0),
-    });
-    const block = new Block({
-      color: 0x202181,
-      dimensions: new THREE.Vector3(1, 2, 1),
-      position: new THREE.Vector3(0, 0.5, 0),
-    });
-    const pavement1 = new Block({
-      color: 0x411186,
-      dimensions: new THREE.Vector3(0.5, 0.2, 4),
-      position: new THREE.Vector3(0.75, -0.6, 0),
-    });
-    const road = new Block({
-      color: 0x2e127b,
-      dimensions: new THREE.Vector3(1, 0.15, 4),
-      position: new THREE.Vector3(1.5, -0.625, 0),
-    });
-    const pavement2 = new Block({
-      color: 0x411186,
-      dimensions: new THREE.Vector3(0.5, 0.2, 4),
-      position: new THREE.Vector3(2.25, -0.6, 0),
-    });
-    const base2 = new Block({
-      color: 0x160157,
-      dimensions: new THREE.Vector3(1, 0.2, 4),
-      position: new THREE.Vector3(3, -0.6, 0),
-    });
-    this.scene.add(base1);
-    this.scene.add(block);
-    this.scene.add(pavement1);
-    this.scene.add(road);
-    this.scene.add(pavement2);
-    this.scene.add(base2);
+    this.clock = new THREE.Clock();
+    this.clock.start();
 
-    const loader = new GLTFLoader();
-    loader.load('assets/lamp.gltf', (gltf) => {
-      gltf.scene.position.set(0.4, -0.5, 0.8);
-      console.log(gltf);
-      this.scene.add(gltf.scene);
-    }, undefined, (error) => {
-      console.error(error);
-    });
+    const cityTile = new CityTile();
+    const cityTileMesh = cityTile.init();
+    cityTileMesh.position.set(0, 0, 4);
+    const cityTile2 = new CityTile();
+    const cityTileMesh2 = cityTile2.init();
+    this.scene.add(cityTileMesh);
+    this.scene.add(cityTileMesh2);
+
+    // const loader = new GLTFLoader();
+    // loader.load('assets/lamp.gltf', (gltf) => {
+    //   gltf.scene.position.set(0.4, -0.5, 0.8);
+    //   console.log(gltf);
+    //   this.scene.add(gltf.scene);
+    // }, undefined, (error) => {
+    //   console.error(error);
+    // });
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1));
 
@@ -127,24 +100,24 @@ class BaseScene {
       shouldCreateHelper: true,
     });
 
-    const { light: pointLight, helper: pointLightHelper } = addPointLight({
-      scene: this.scene,
-      // color: 0xfff000 // yellow
-      color: 0x72ffff,
-      intensity: 0.3,
-      distance: 0.4,
-      position: new THREE.Vector3(1, 1, -0.9),
-      shouldCreateHelper: true,
-    });
+    // const { light: pointLight, helper: pointLightHelper } = addPointLight({
+    //   scene: this.scene,
+    //   color: 0xfff000, // yellow
+    //   // color: 0x72ffff // neon blue,
+    //   intensity: 0.3,
+    //   distance: 0.4,
+    //   position: new THREE.Vector3(1, 1, -0.9),
+    //   shouldCreateHelper: true,
+    // });
 
     gui.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('directional light color');
     gui.add(directionalLight, 'intensity', 0, 2, 0.01);
     this.makeXYZGUI(gui, directionalLight.position, 'directional light position', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
     this.makeXYZGUI(gui, directionalLight.target.position, 'directional light target', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
 
-    this.makeXYZGUI(gui, pointLight.position, 'point light position', () => this.updatePointLight(pointLightHelper));
-    gui.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('point light color');
-    gui.add(pointLight, 'intensity', 0, 2, 0.01).name('point light intensity');
+    // this.makeXYZGUI(gui, pointLight.position, 'point light position', () => this.updatePointLight(pointLightHelper));
+    // gui.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('point light color');
+    // gui.add(pointLight, 'intensity', 0, 2, 0.01).name('point light intensity');
 
     gui.add(this, 'resetCamera').name('reset camera');
 
@@ -158,6 +131,8 @@ class BaseScene {
     const animate = () => {
       requestAnimationFrame(animate);
       this.controls.update();
+      cityTile.update(this.clock);
+      cityTile2.update(this.clock);
       this.renderer.render(this.scene, this.camera);
     };
     animate();

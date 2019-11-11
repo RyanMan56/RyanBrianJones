@@ -3,9 +3,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as dat from 'dat.gui';
 import { richBlack } from '../colors';
 import Block from '../components/basic/block';
-import ColorGUIHelper from '../helpers/ColorGUIHelper';
+import ColorGUIHelper from '../helpers/color-gui-helper';
 import { addDirectionalLight, addPointLight } from '../helpers';
-import CityTile from '../components/structures/city-tile';
+import CityTile from '../components/tiles/city-tile-straight';
+import { OSCILLATE } from '../helpers/buildings/building-types';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -71,13 +72,11 @@ class BaseScene {
     this.clock = new THREE.Clock();
     this.clock.start();
 
-    const cityTile = new CityTile();
-    const cityTileMesh = cityTile.init();
-    cityTileMesh.position.set(0, 0, 4);
-    const cityTile2 = new CityTile();
-    const cityTileMesh2 = cityTile2.init();
-    this.scene.add(cityTileMesh);
-    this.scene.add(cityTileMesh2);
+    const cityTile = new CityTile(null, null);
+    this.scene.add(cityTile.group);
+    const cityTile2 = new CityTile(null, OSCILLATE);
+    cityTile2.group.position.set(0, 0, 4);
+    this.scene.add(cityTile2.group);
 
     // const loader = new GLTFLoader();
     // loader.load('assets/lamp.gltf', (gltf) => {

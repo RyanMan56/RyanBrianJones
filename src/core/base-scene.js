@@ -7,6 +7,7 @@ import ColorGUIHelper from '../helpers/color-gui-helper';
 import { addDirectionalLight, addPointLight } from '../helpers';
 import CityTile from '../components/tiles/city-tile-straight';
 import { OSCILLATE } from '../helpers/buildings/building-types';
+import CityTileCorner from '../components/tiles/city-tile-corner';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -74,9 +75,9 @@ class BaseScene {
 
     const cityTile = new CityTile(null, null);
     this.scene.add(cityTile.group);
-    const cityTile2 = new CityTile(null, OSCILLATE);
-    cityTile2.group.position.set(0, 0, 4);
-    this.scene.add(cityTile2.group);
+
+    const curvedCityTile = new CityTileCorner();
+    this.scene.add(curvedCityTile.group);
 
     // const loader = new GLTFLoader();
     // loader.load('assets/lamp.gltf', (gltf) => {
@@ -131,7 +132,7 @@ class BaseScene {
       requestAnimationFrame(animate);
       this.controls.update();
       cityTile.update(this.clock);
-      cityTile2.update(this.clock);
+      curvedCityTile.update(this.clock);
       this.renderer.render(this.scene, this.camera);
     };
     animate();

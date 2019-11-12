@@ -71,7 +71,7 @@ class CityTileStraight {
 
     switch (frontType) {
       case OSCILLATE:
-        this.frontBuildings = this.generateBuilding(OSCILLATE, true);
+        this.frontBuildings = this.generateBuildingRow(OSCILLATE, true);
         buildings.add(this.frontBuildings);
         break;
       default:
@@ -80,7 +80,7 @@ class CityTileStraight {
 
     switch (backType) {
       case OSCILLATE:
-        this.backBuildings = this.generateBuilding(OSCILLATE, false);
+        this.backBuildings = this.generateBuildingRow(OSCILLATE, false);
         buildings.add(this.backBuildings);
         break;
       default:
@@ -90,7 +90,7 @@ class CityTileStraight {
     return buildings;
   }
 
-  generateBuilding(type = null, isFront) {
+  generateBuildingRow(type = null, isFront) {
     const group = new Group();
     group.name = `${isFront ? 'Front' : 'Back'} Buildings`;
     group.position.set(isFront ? 3 : 0, 0, 0);

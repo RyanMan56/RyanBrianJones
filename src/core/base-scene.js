@@ -1,13 +1,11 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as dat from 'dat.gui';
 import { richBlack } from '../colors';
-import Block from '../components/basic/block';
 import ColorGUIHelper from '../helpers/color-gui-helper';
-import { addDirectionalLight, addPointLight } from '../helpers';
-import CityTile from '../components/tiles/city-tile-straight';
-import { OSCILLATE } from '../helpers/buildings/building-types';
+import { addDirectionalLight } from '../helpers';
+import CityTileStraight from '../components/tiles/city-tile-straight';
 import CityTileCorner from '../components/tiles/city-tile-corner';
+import { OSCILLATE } from '../helpers/buildings/building-types';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -73,20 +71,44 @@ class BaseScene {
     this.clock = new THREE.Clock();
     this.clock.start();
 
-    const cityTile = new CityTile(null, null);
+    const cityTile = new CityTileStraight();
+    cityTile.addBuildings(OSCILLATE);
     this.scene.add(cityTile.group);
 
-    const curvedCityTile = new CityTileCorner();
+    const curvedCityTile = new CityTileCorner({ position: new THREE.Vector3(0, 0, -1) });
     this.scene.add(curvedCityTile.group);
+      
+    {
+      const a = curvedCityTile.clone();
+      a.setPosition({ x: 1, z: -1 });
+      a.setRotation({ y: THREE.Math.degToRad(-90) });
+      this.scene.add(a.group);
+    }
 
-    // const loader = new GLTFLoader();
-    // loader.load('assets/lamp.gltf', (gltf) => {
-    //   gltf.scene.position.set(0.4, -0.5, 0.8);
-    //   console.log(gltf);
-    //   this.scene.add(gltf.scene);
-    // }, undefined, (error) => {
-    //   console.error(error);
-    // });
+    const cityTileClone = cityTile.clone();
+    cityTileClone.setPosition({ x: 1, z: 0 });
+    cityTileClone.addBuildings(null, OSCILLATE);
+    this.scene.add(cityTileClone.group);
+
+    {
+      const a = curvedCityTile.clone();
+      a.setPosition({ x: 1, z: 1 });
+      a.setRotation({ y: THREE.Math.degToRad(180) });
+      this.scene.add(a.group);
+    }
+
+    {
+      const a = curvedCityTile.clone();
+      a.setPosition({ x: 0, z: 1 });
+      a.setRotation({ y: THREE.Math.degToRad(90) });
+      this.scene.add(a.group);
+    }
+
+    // for (let i = 0; i < 1000; i++) {
+    //   const a = curvedCityTile.clone();
+    //   a.setPosition({ x: i + 1 });
+    //   this.scene.add(a.group);
+    // }
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1));
 
@@ -100,24 +122,10 @@ class BaseScene {
       shouldCreateHelper: true,
     });
 
-    // const { light: pointLight, helper: pointLightHelper } = addPointLight({
-    //   scene: this.scene,
-    //   color: 0xfff000, // yellow
-    //   // color: 0x72ffff // neon blue,
-    //   intensity: 0.3,
-    //   distance: 0.4,
-    //   position: new THREE.Vector3(1, 1, -0.9),
-    //   shouldCreateHelper: true,
-    // });
-
     gui.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('directional light color');
     gui.add(directionalLight, 'intensity', 0, 2, 0.01);
     this.makeXYZGUI(gui, directionalLight.position, 'directional light position', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
     this.makeXYZGUI(gui, directionalLight.target.position, 'directional light target', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
-
-    // this.makeXYZGUI(gui, pointLight.position, 'point light position', () => this.updatePointLight(pointLightHelper));
-    // gui.addColor(new ColorGUIHelper(pointLight, 'color'), 'value').name('point light color');
-    // gui.add(pointLight, 'intensity', 0, 2, 0.01).name('point light intensity');
 
     gui.add(this, 'resetCamera').name('reset camera');
 
@@ -132,6 +140,7 @@ class BaseScene {
       requestAnimationFrame(animate);
       this.controls.update();
       cityTile.update(this.clock);
+      cityTileClone.update(this.clock);
       curvedCityTile.update(this.clock);
       this.renderer.render(this.scene, this.camera);
     };

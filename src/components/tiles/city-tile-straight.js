@@ -1,25 +1,18 @@
 import * as THREE from 'three';
 import Block from '../basic/block';
-import { generateRoadMarkings } from '../../helpers/generators';
+import { generateRoadMarkings, generatePointMesh } from '../../helpers/generators';
 import { generateOscillateBuildings, updateOscillateBuildings } from '../../helpers/buildings/oscillate-helper';
 import { OSCILLATE } from '../../helpers/buildings/building-types';
+import CityTileBase from './city-tile-base';
 
 const { Group } = THREE;
 
-class CityTileStraight {
-  constructor(frontType = null, backType = null) {
-    this.frontType = frontType;
-    this.backType = backType;
-    this.init();
-  }
-
+class CityTileStraight extends CityTileBase {
   init() {
-    this.group = new Group();
     const { group } = this;
 
     group.add(this.generateTileBase());
-    this.buildings = this.generateBuildings(this.frontType, this.backType);
-    group.add(this.buildings);
+    group.add(this.generateBuildings(this.frontType, this.backType));
 
     this.group = group;
   }
@@ -27,6 +20,7 @@ class CityTileStraight {
   generateTileBase() {
     const group = new Group();
     group.name = 'Tile Base';
+    group.position.setX(-1.5);
 
     const land1 = new Block({
       // color: 0x20074e,
@@ -67,7 +61,10 @@ class CityTileStraight {
   }
 
   generateBuildings(frontType = null, backType = null) {
+    this.group.remove(this.group.children.find(child => child.name === 'Buildings'));
     const buildings = new Group();
+    buildings.name = 'Buildings';
+    buildings.position.setX(-1.5);
 
     switch (frontType) {
       case OSCILLATE:
@@ -87,6 +84,8 @@ class CityTileStraight {
         break;
     }
 
+    this.buildings = buildings;
+
     return buildings;
   }
 
@@ -104,6 +103,12 @@ class CityTileStraight {
     return group;
   }
 
+  addBuildings(frontType = null, backType = null) {
+    this.frontType = frontType;
+    this.backType = backType;
+    this.group.add(this.generateBuildings(frontType, backType));
+  }
+
   update(clock) {
     this.updateBuildings(clock, this.frontType, this.frontBuildings);
     this.updateBuildings(clock, this.backType, this.backBuildings);
@@ -117,6 +122,13 @@ class CityTileStraight {
       default:
         break;
     }
+  }
+
+  clone() {
+    const a = new CityTileStraight({ skipInit: true });
+    a.group = this.group.clone();
+    a.group.remove(a.group.children.find(child => child.name === 'Buildings'));
+    return a;
   }
 }
 

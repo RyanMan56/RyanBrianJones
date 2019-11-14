@@ -71,44 +71,33 @@ class BaseScene {
     this.clock = new THREE.Clock();
     this.clock.start();
 
-    const cityTile = new CityTileStraight();
-    cityTile.addBuildings(OSCILLATE);
-    this.scene.add(cityTile.group);
+    const tiles = [];
+
+    const cityTile = new CityTileStraight({ backType: OSCILLATE });
+    tiles.push(cityTile);
 
     const curvedCityTile = new CityTileCorner({ position: new THREE.Vector3(0, 0, -1) });
-    this.scene.add(curvedCityTile.group);
-      
-    {
-      const a = curvedCityTile.clone();
-      a.setPosition({ x: 1, z: -1 });
-      a.setRotation({ y: THREE.Math.degToRad(-90) });
-      this.scene.add(a.group);
-    }
+    tiles.push(curvedCityTile);
 
-    const cityTileClone = cityTile.clone();
-    cityTileClone.setPosition({ x: 1, z: 0 });
-    cityTileClone.addBuildings(null, OSCILLATE);
-    this.scene.add(cityTileClone.group);
+    tiles.push(curvedCityTile.clone()
+      .setPosition({ x: 1, z: -1 })
+      .setRotation({ y: THREE.Math.degToRad(-90) }));
 
-    {
-      const a = curvedCityTile.clone();
-      a.setPosition({ x: 1, z: 1 });
-      a.setRotation({ y: THREE.Math.degToRad(180) });
-      this.scene.add(a.group);
-    }
+    tiles.push(cityTile.clone()
+      .setPosition({ x: 1, z: 0 })
+      .addBuildings(OSCILLATE));
 
-    {
-      const a = curvedCityTile.clone();
-      a.setPosition({ x: 0, z: 1 });
-      a.setRotation({ y: THREE.Math.degToRad(90) });
-      this.scene.add(a.group);
-    }
+    tiles.push(curvedCityTile.clone()
+      .setPosition({ x: 1, z: 1 })
+      .setRotation({ y: THREE.Math.degToRad(180) }));
 
-    // for (let i = 0; i < 1000; i++) {
-    //   const a = curvedCityTile.clone();
-    //   a.setPosition({ x: i + 1 });
-    //   this.scene.add(a.group);
-    // }
+    tiles.push(curvedCityTile.clone()
+      .setPosition({ x: 0, z: 1 })
+      .setRotation({ y: THREE.Math.degToRad(90) }));
+
+    tiles.forEach((tile) => {
+      this.scene.add(tile.group);
+    });
 
     this.scene.add(new THREE.AmbientLight(0xffffff, 1));
 
@@ -139,9 +128,9 @@ class BaseScene {
     const animate = () => {
       requestAnimationFrame(animate);
       this.controls.update();
-      cityTile.update(this.clock);
-      cityTileClone.update(this.clock);
-      curvedCityTile.update(this.clock);
+      tiles.forEach((tile) => {
+        tile.update(this.clock);
+      });
       this.renderer.render(this.scene, this.camera);
     };
     animate();

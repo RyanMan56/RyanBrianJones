@@ -28,10 +28,12 @@ class CityTileBase {
 
   setPosition({ x = 0, y = 0, z = 0 }) {
     this.group.position.set(1.5 + x * 4, y * 4, z * 4);
+    return this;
   }
 
   setRotation({ x = 0, y = 0, z = 0 }) {
     this.group.rotation.set(x, y, z);
+    return this;
   }
 }
 

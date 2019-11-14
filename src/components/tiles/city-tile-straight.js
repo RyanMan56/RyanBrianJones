@@ -107,6 +107,7 @@ class CityTileStraight extends CityTileBase {
     this.frontType = frontType;
     this.backType = backType;
     this.group.add(this.generateBuildings(frontType, backType));
+    return this;
   }
 
   update(clock) {

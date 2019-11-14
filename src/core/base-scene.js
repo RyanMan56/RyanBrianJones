@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import * as dat from 'dat.gui';
 import { richBlack } from '../colors';
 import ColorGUIHelper from '../helpers/color-gui-helper';
 import { addDirectionalLight } from '../helpers';
@@ -71,69 +70,7 @@ class BaseScene {
     this.clock = new THREE.Clock();
     this.clock.start();
 
-    const tiles = [];
-
-    const cityTile = new CityTileStraight({ backType: OSCILLATE });
-    tiles.push(cityTile);
-
-    const curvedCityTile = new CityTileCorner({ position: new THREE.Vector3(0, 0, -1) });
-    tiles.push(curvedCityTile);
-
-    tiles.push(curvedCityTile.clone()
-      .setPosition({ x: 1, z: -1 })
-      .setRotation({ y: THREE.Math.degToRad(-90) }));
-
-    tiles.push(cityTile.clone()
-      .setPosition({ x: 1, z: 0 })
-      .addBuildings(OSCILLATE));
-
-    tiles.push(curvedCityTile.clone()
-      .setPosition({ x: 1, z: 1 })
-      .setRotation({ y: THREE.Math.degToRad(180) }));
-
-    tiles.push(curvedCityTile.clone()
-      .setPosition({ x: 0, z: 1 })
-      .setRotation({ y: THREE.Math.degToRad(90) }));
-
-    tiles.forEach((tile) => {
-      this.scene.add(tile.group);
-    });
-
-    this.scene.add(new THREE.AmbientLight(0xffffff, 1));
-
-    const gui = new dat.GUI();
-
-    const { light: directionalLight, helper: directionalLightHelper } = addDirectionalLight({
-      scene: this.scene,
-      color: 0xff9500,
-      intensity: 2,
-      position: new THREE.Vector3(0, 7, 5.1),
-      shouldCreateHelper: true,
-    });
-
-    gui.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('directional light color');
-    gui.add(directionalLight, 'intensity', 0, 2, 0.01);
-    this.makeXYZGUI(gui, directionalLight.position, 'directional light position', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
-    this.makeXYZGUI(gui, directionalLight.target.position, 'directional light target', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
-
-    gui.add(this, 'resetCamera').name('reset camera');
-
-    window.addEventListener('resize', () => {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-      this.controls.update();
-      tiles.forEach((tile) => {
-        tile.update(this.clock);
-      });
-      this.renderer.render(this.scene, this.camera);
-    };
-    animate();
+    this.renderWorld();
   }
 }
 

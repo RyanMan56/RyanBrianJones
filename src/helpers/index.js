@@ -1,4 +1,6 @@
-import { Vector3, DirectionalLight, DirectionalLightHelper, PointLight, PointLightHelper } from 'three';
+import { Math as ThreeMath, Vector3, DirectionalLight, DirectionalLightHelper, PointLight, PointLightHelper } from 'three';
+import CityTileStraight from '../components/tiles/city-tile-straight';
+import CityTileCorner from '../components/tiles/city-tile-corner';
 
 export function addDirectionalLight({
   scene,
@@ -45,4 +47,35 @@ export function addPointLight({
     returnValue.helper = helper;
   }
   return returnValue;
+}
+
+export function parseWorldMap(worldMap) {
+  const cityTileStraight = new CityTileStraight();
+  const cityTileCorner = new CityTileCorner();
+
+  const tiles = worldMap.map((item) => {
+    let tile = null;
+    switch (item.type) {
+      case 'corner':
+        tile = cityTileCorner.clone();
+        break;
+      case 'straight':
+      default:
+        tile = cityTileStraight.clone();
+        break;
+    }
+
+    tile.setPosition({ x: item.position.x || 0, y: item.position.y || 0, z: item.position.z || 0 });
+    tile.setRotation({
+      x: ThreeMath.degToRad(item.rotation.x || 0),
+      y: ThreeMath.degToRad(item.rotation.y || 0),
+      z: ThreeMath.degToRad(item.rotation.z),
+    });
+    tile.addBuildings(item.frontType, item.backType);
+
+    return tile;
+  });
+
+  console.log(tiles);
+  return tiles;
 }

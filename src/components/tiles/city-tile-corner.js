@@ -58,6 +58,13 @@ class CityTileCorner extends CityTileBase {
     return group;
   }
 
+  addBuildings(frontType = null, backType = null) {
+    this.frontType = frontType;
+    this.backType = backType;
+    // this.group.add(this.generateBuildings(frontType, backType));
+    return this;
+  }
+
   update() {
     
   }

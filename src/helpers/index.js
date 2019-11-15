@@ -15,6 +15,17 @@ export function addDirectionalLight({
   light.distance = distance;
   light.position.set(position.x, position.y, position.z);
   light.target.position.set(targetPosition.x, targetPosition.y, targetPosition.z);
+
+  // light.castShadow = true;
+  // light.shadow.mapSize.width = 1024;
+  // light.shadow.mapSize.height = 1024;
+  // var d = 20;
+  // light.shadow.camera.left = - d;
+  // light.shadow.camera.right = d;
+  // light.shadow.camera.top = d;
+  // light.shadow.camera.bottom = - d;
+  // light.shadow.camera.far = 1000;
+
   scene.add(light);
   scene.add(light.target);
 

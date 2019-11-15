@@ -10,13 +10,13 @@
     "type": "straight",
     "position": { "x": 1, "y": 0, "z": 0 },
     "rotation": { "x": 0, "y": 90, "z": 0 },
-    "frontType": null,
+    "frontType": "OSCILLATE",
     "backType": null
   },
   {
-    "type": "straight",
+    "type": "corner",
     "position": { "x": 2, "y": 0, "z": 0 },
-    "rotation": { "x": 0, "y": 90, "z": 0 },
+    "rotation": { "x": 0, "y": 180, "z": 0 },
     "frontType": null,
     "backType": null
   }

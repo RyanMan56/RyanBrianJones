@@ -41,6 +41,7 @@ class BaseScene {
     this.camera.rotation.order = 'YXZ';
     this.camera.rotation.y = -Math.PI / 4;
     this.camera.rotation.x = Math.atan(-1 / Math.sqrt(2));
+    this.camera.rotation.z = 0;
   }
 
   init() {
@@ -54,7 +55,7 @@ class BaseScene {
     this.scene = new THREE.Scene();
     const aspect = window.innerWidth / window.innerHeight;
     const d = 20;
-    this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
+    this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, -1000, 1000);
 
     // Set up the camera for isometric projection
     this.resetCamera();

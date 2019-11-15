@@ -7,6 +7,7 @@ class CityTileCorner extends CityTileBase {
     const { group } = this;
 
     group.add(this.generateTileBase());
+    group.add(generatePointMesh(new Vector3(0, 0, 0), 0.01, 0));
     // group.add(this.generateBuildings(this.frontType, this.backType));
   }
 

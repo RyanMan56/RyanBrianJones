@@ -142,3 +142,7 @@ export function generateCurvedRoadMarkings(
 
   return lineSegments;
 }
+
+export function generateTileSelection() {
+
+}

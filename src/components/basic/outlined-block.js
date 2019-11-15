@@ -23,7 +23,7 @@ class OutlinedBlock {
     marginX = 0.002,
     marginY = 0.002,
     marginZ = 0.002,
-  }) {
+  } = {}) {
     this.color = color;
     this.lineColor = lineColor;
     this.disableLines = disableLines;

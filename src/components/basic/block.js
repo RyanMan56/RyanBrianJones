@@ -9,7 +9,7 @@ class Block {
     emissive = 0x000000,
     position = new Vector3(0, 0, 0),
     dimensions = new Vector3(0, 0, 0),
-  }) {
+  } = {}) {
     this.color = color;
     this.emissive = emissive;
     this.position = position;

@@ -10,7 +10,7 @@ class HighlightBlock {
 
   create() {
     const geom = new BoxGeometry(this.position.x, this.position.y, this.position.z);
-    const edges = new EdgesGeometry(geom, 90);
+    const edges = new EdgesGeometry(geom);
     this.group = new LineSegments(edges, new LineBasicMaterial({ color: 0xffffff }));
     this.group.position.setX(1.5);
     this.group.position.setY(-0.6);

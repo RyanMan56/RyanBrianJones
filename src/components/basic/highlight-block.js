@@ -1,4 +1,4 @@
-import { Vector3, BoxGeometry, MeshBasicMaterial, Mesh, EdgesGeometry, LineSegments, LineBasicMaterial } from 'three';
+import { Vector3, BoxGeometry, EdgesGeometry, LineSegments, LineBasicMaterial } from 'three';
 
 class HighlightBlock {
   constructor({

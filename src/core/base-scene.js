@@ -50,6 +50,7 @@ class BaseScene {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setClearColor(richBlack, 1);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
 
     // Create scene and camera
     this.scene = new THREE.Scene();

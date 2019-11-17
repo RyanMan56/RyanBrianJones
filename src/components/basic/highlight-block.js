@@ -1,4 +1,4 @@
-import { Vector3, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
+import { Vector3, BoxGeometry, MeshBasicMaterial, Mesh, EdgesGeometry, LineSegments, LineBasicMaterial } from 'three';
 
 class HighlightBlock {
   constructor({
@@ -10,8 +10,8 @@ class HighlightBlock {
 
   create() {
     const geom = new BoxGeometry(this.position.x, this.position.y, this.position.z);
-    const mat = new MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0 });
-    this.group = new Mesh(geom, mat);
+    const edges = new EdgesGeometry(geom, 90);
+    this.group = new LineSegments(edges, new LineBasicMaterial({ color: 0xffffff }));
     this.group.position.setX(1.5);
     this.group.position.setY(-0.6);
     return this;

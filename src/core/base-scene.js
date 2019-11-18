@@ -4,7 +4,9 @@ import { richBlack } from '../colors';
 const OrbitControls = require('three-orbit-controls')(THREE);
 
 class BaseScene {
-  constructor() {
+  constructor({ tileFactory = null }) {
+    this.tileFactory = tileFactory;
+
     this.renderer = null;
     this.scene = null;
     this.camera = null;

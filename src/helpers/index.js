@@ -60,19 +60,17 @@ export function addPointLight({
   return returnValue;
 }
 
-export function parseWorldMap(worldMap) {
-  const cityTileStraight = new CityTileStraight();
-  const cityTileCorner = new CityTileCorner();
+export function parseWorldMap(worldMap, tileFactory) {
 
   const tiles = worldMap.map((item) => {
     let tile = null;
     switch (item.type) {
       case 'corner':
-        tile = cityTileCorner.clone();
+        tile = tileFactory.cityTileCorner.clone();
         break;
       case 'straight':
       default:
-        tile = cityTileStraight.clone();
+        tile = tileFactory.cityTileStraight.clone();
         break;
     }
 

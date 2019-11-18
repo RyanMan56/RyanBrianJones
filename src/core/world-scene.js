@@ -55,7 +55,7 @@ class WorldScene extends BaseScene {
     this.makeXYZGUI(gui, directionalLight.target.position, 'directional light target', () => this.updateDirectionalLight(directionalLight, directionalLightHelper));
 
     gui.add(this, 'resetCamera').name('reset camera');
-    
+
     const animate = () => {
       requestAnimationFrame(animate);
       this.controls.update();

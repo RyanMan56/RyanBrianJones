@@ -8,10 +8,14 @@ import CityTileBase from './city-tile-base';
 const { Group } = THREE;
 
 class CityTileStraight extends CityTileBase {
-  init() {
-    const { group } = this;
+  constructor(props) {
+    super(props);
 
     this.name = 'Road Straight';
+  }
+
+  init() {
+    const { group } = this;
 
     group.add(this.generateTileBase());
     group.add(this.generateBuildings(this.frontType, this.backType));

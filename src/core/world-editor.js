@@ -35,7 +35,7 @@ class WorldEditor extends BaseScene {
     plane.name = 'Plane';
     this.scene.add(plane);
 
-    const tiles = parseWorldMap(worldMap);
+    const tiles = parseWorldMap(worldMap, this.tileFactory);
 
     tiles.forEach((tile) => {
       this.scene.add(tile.group);

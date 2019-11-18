@@ -5,11 +5,11 @@ import { richBlack } from '../colors';
 import { OSCILLATE } from '../helpers/buildings/building-types';
 
 class Tile {
-  constructor() {
-    return this.init();
+  constructor(tileObject) {
+    return this.init(tileObject);
   }
 
-  init() {
+  init(tileObject) {
     const element = document.createElement('div');
     element.className = 'tile-item';
 
@@ -34,8 +34,8 @@ class Tile {
     renderer.setClearColor(richBlack, 1);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    const cityTile = new CityTileStraight({ position: new Vector3(0, 0, 0), frontType: null });
-    scene.add(cityTile.group);
+    const tileClone = tileObject.clone();
+    scene.add(tileClone.group);
 
     addDirectionalLight({
       scene,
@@ -48,7 +48,7 @@ class Tile {
 
     const title = document.createElement('span');
     title.className = 'tile-item-title';
-    title.textContent = cityTile.name;
+    title.textContent = tileClone.name;
     element.appendChild(title);
 
     // const clock = new Clock();

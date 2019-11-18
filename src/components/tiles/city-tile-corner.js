@@ -3,10 +3,14 @@ import { generatePath, generateCurveFromPoints, generateShapeFromPoints, generat
 import CityTileBase from './city-tile-base';
 
 class CityTileCorner extends CityTileBase {
-  init() {
-    const { group } = this;
+  constructor(props) {
+    super(props);
 
     this.name = 'Road Corner';
+  }
+
+  init() {
+    const { group } = this;
 
     group.add(this.generateTileBase());
     // group.add(this.generateBuildings(this.frontType, this.backType));

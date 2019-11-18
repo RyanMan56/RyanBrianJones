@@ -6,6 +6,8 @@ class CityTileCorner extends CityTileBase {
   init() {
     const { group } = this;
 
+    this.name = 'Road Corner';
+
     group.add(this.generateTileBase());
     // group.add(this.generateBuildings(this.frontType, this.backType));
   }

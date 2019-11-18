@@ -12,6 +12,7 @@ class CityTileBase {
     this.rotation = rotation;
     this.frontType = frontType;
     this.backType = backType;
+    this.name = 'Tile';
     this.group = new Group();
     if (!skipInit) {
       this.setupPositionAndRotation();

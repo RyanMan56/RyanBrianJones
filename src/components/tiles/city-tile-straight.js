@@ -11,6 +11,8 @@ class CityTileStraight extends CityTileBase {
   init() {
     const { group } = this;
 
+    this.name = 'Road Straight';
+
     group.add(this.generateTileBase());
     group.add(this.generateBuildings(this.frontType, this.backType));
 

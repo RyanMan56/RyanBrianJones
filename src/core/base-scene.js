@@ -1,10 +1,5 @@
 import * as THREE from 'three';
 import { richBlack } from '../colors';
-import ColorGUIHelper from '../helpers/color-gui-helper';
-import { addDirectionalLight } from '../helpers';
-import CityTileStraight from '../components/tiles/city-tile-straight';
-import CityTileCorner from '../components/tiles/city-tile-corner';
-import { OSCILLATE } from '../helpers/buildings/building-types';
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
@@ -73,6 +68,17 @@ class BaseScene {
     this.clock.start();
 
     this.renderWorld();
+
+    window.addEventListener('resize', () => {
+      const newAspect = window.innerWidth / window.innerHeight;
+
+      this.camera.left = -d * newAspect;
+      this.camera.right = d * newAspect;
+      this.camera.aspect = newAspect;
+      this.camera.updateProjectionMatrix();
+
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    });
   }
 }
 

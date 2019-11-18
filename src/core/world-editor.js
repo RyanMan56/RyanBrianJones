@@ -64,13 +64,6 @@ class WorldEditor extends BaseScene {
 
     gui.add(this, 'resetCamera').name('reset camera');
 
-    window.addEventListener('resize', () => {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
-
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
     const animate = () => {
       requestAnimationFrame(animate);
       this.controls.update();

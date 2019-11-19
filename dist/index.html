@@ -7,11 +7,22 @@
 
 <body>
   <canvas id="canvas"></canvas>
-  <div id="tile-selector">
-    <div id="tile-selector-heading">
-      <span>Tiles</span>
+  <div id="bottom-panel">
+    <div id="tile-selector">
+      <div id="tile-selector-heading" class="panel-heading">
+        <span>Tile selection</span>
+      </div>
+      <div id="tile-selector-body" class="panel-body">
+        <div id="tile-types">
+        </div>
+        <div id="tile-items"></div>
+      </div>
     </div>
-    <div id="tile-selector-body">
+    <div id="tile-controls">
+      <div class="panel-heading">
+        <span>Tile controls</span>
+      </div>
+      <div class="panel-body"></div>
     </div>
   </div>
   <script src="bundle.js"></script>

@@ -3,7 +3,7 @@ import * as dat from 'dat.gui';
 import BaseScene from './base-scene';
 import CityTileStraight from '../components/tiles/city-tile-straight';
 import CityTileCorner from '../components/tiles/city-tile-corner';
-import { OSCILLATE } from '../helpers/buildings/building-types';
+import { OSCILLATE } from '../helpers/tile-types';
 import ColorGUIHelper from '../helpers/color-gui-helper';
 import { addDirectionalLight } from '../helpers';
 

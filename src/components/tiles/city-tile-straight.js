@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import Block from '../basic/block';
 import { generateRoadMarkings, generatePointMesh } from '../../helpers/generators';
 import { generateOscillateBuildings, updateOscillateBuildings } from '../../helpers/buildings/oscillate-helper';
-import { OSCILLATE } from '../../helpers/buildings/building-types';
+import { OSCILLATE } from '../../helpers/tile-types';
 import CityTileBase from './city-tile-base';
 
 const { Group } = THREE;

@@ -1,27 +1,29 @@
 import { WebGLRenderer, Scene, OrthographicCamera, Vector3, AmbientLight, Clock } from 'three';
-import CityTileStraight from '../components/tiles/city-tile-straight';
 import { addDirectionalLight } from '../helpers';
 import { richBlack } from '../colors';
-import { OSCILLATE } from '../helpers/buildings/building-types';
 
 class Tile {
   constructor(tileObject) {
+    this.scene = null;
+    this.renderer = null;
+    this.element = null;
+
     return this.init(tileObject);
   }
 
   init(tileObject) {
-    const element = document.createElement('div');
-    element.className = 'tile-item';
+    this.element = document.createElement('div');
+    this.element.className = 'tile-item';
 
     const canvas = document.createElement('canvas');
     canvas.className = 'tile-item-canvas';
     canvas.width = 138;
     canvas.height = 138;
-    element.appendChild(canvas);
+    this.element.appendChild(canvas);
 
-    const renderer = new WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(canvas.width, canvas.height);
-    const scene = new Scene();
+    this.renderer = new WebGLRenderer({ canvas, antialias: true });
+    this.renderer.setSize(canvas.width, canvas.height);
+    this.scene = new Scene();
     const d = 3;
     const camera = new OrthographicCamera(-d, d, d, -d, -100, 100);
     camera.position.set(1.5, -0.5, 0);
@@ -30,39 +32,39 @@ class Tile {
     camera.rotation.x = Math.atan(-1 / Math.sqrt(2));
     camera.rotation.z = 0;
 
-    scene.add(new AmbientLight(0xffffff, 1));
-    renderer.setClearColor(richBlack, 1);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    this.scene.add(new AmbientLight(0xffffff, 1));
+    this.renderer.setClearColor(richBlack, 1);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
 
-    const tileClone = tileObject.clone();
-    scene.add(tileClone.group);
+    this.scene.add(tileObject.group);
 
     addDirectionalLight({
-      scene,
+      scene: this.scene,
       color: 0xff9500,
       intensity: 2,
       position: new Vector3(0, 7, 5.1),
     });
 
-    renderer.render(scene, camera);
+    this.renderer.render(this.scene, camera);
 
     const title = document.createElement('span');
     title.className = 'tile-item-title';
-    title.textContent = tileClone.name;
-    element.appendChild(title);
+    title.textContent = tileObject.name;
+    this.element.appendChild(title);
 
-    // const clock = new Clock();
-    // clock.start();
+    const clock = new Clock();
+    clock.start();
 
+    const animate = () => {
+      if (this.renderer) {
+        requestAnimationFrame(animate);
+        tileObject.update(clock);
+        this.renderer.render(this.scene, camera);
+      }
+    };
+    animate();
 
-    // const animate = () => {
-    //   requestAnimationFrame(animate);
-    //   cityTile.update(clock);
-    //   renderer.render(scene, camera);
-    // };
-    // animate();
-
-    return element;
+    return this;
   }
 }
 

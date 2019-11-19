@@ -5,11 +5,13 @@ import ColorGUIHelper from '../helpers/color-gui-helper';
 import { addDirectionalLight, parseWorldMap } from '../helpers';
 import worldMap from '../assets/world-map.json';
 import HighlightBlock from '../components/basic/highlight-block';
+import UIManager from '../ui/ui-manager';
 
 class WorldEditor extends BaseScene {
   constructor(props) {
     super(props);
 
+    this.uiManager = new UIManager({ tileFactory: this.tileFactory });
     window.addEventListener('mousemove', e => this.onMouseMove(e), false);
   }
 

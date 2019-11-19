@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 canvas {
@@ -9,8 +10,8 @@ canvas {
 
 #tile-selector {
   position: absolute;
-  top: 70%;
-  height: 30%;
+  top: 75%;
+  height: 25%;
   width: 100%;
   background-color: #15171b;
 }
@@ -40,6 +41,12 @@ canvas {
   margin: 10px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.tile-item:hover {
+  background-color: #a91486;
+  box-shadow: 0 0 10px #a91486;
 }
 
 .tile-item-canvas {

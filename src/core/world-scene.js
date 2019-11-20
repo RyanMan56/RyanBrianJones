@@ -9,6 +9,8 @@ import { addDirectionalLight } from '../helpers';
 
 class WorldScene extends BaseScene {
   renderWorld() {
+    this.hideBottomPanel();
+
     const tiles = [];
 
     const cityTile = new CityTileStraight({ position: new Vector3(0, 0, 0), backType: OSCILLATE });
@@ -65,6 +67,19 @@ class WorldScene extends BaseScene {
       this.renderer.render(this.scene, this.camera);
     };
     animate();
+  }
+
+  hideBottomPanel() {
+    const canvasContainer = document.querySelector('#main');
+    document.getElementById('bottom-panel').style.display = 'none';
+    const newAspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+
+    this.camera.left = -this.d * newAspect;
+    this.camera.right = this.d * newAspect;
+    this.camera.aspect = newAspect;
+    this.camera.updateProjectionMatrix();
+
+    this.renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
   }
 }
 

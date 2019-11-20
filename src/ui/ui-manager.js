@@ -1,6 +1,5 @@
-import { WebGLRenderer } from 'three';
 import Tile from './tile';
-import { NO_BUILDINGS, OSCILLATE } from '../helpers/tile-types';
+import { NO_BUILDINGS } from '../helpers/tile-types';
 
 class UIManager {
   constructor({ tileFactory = null }) {
@@ -13,8 +12,6 @@ class UIManager {
   }
 
   init() {
-    document.getElementById('bottom-panel').style.display = 'flex';
-
     const currentType = NO_BUILDINGS;
 
     this.tileTypes = {

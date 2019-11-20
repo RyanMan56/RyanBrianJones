@@ -19,8 +19,9 @@ class WorldEditor extends BaseScene {
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
 
-    this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    const canvasContainer = document.getElementById('main');
+    this.mouse.x = (e.clientX / canvasContainer.clientWidth) * 2 - 1;
+    this.mouse.y = -(e.clientY / canvasContainer.clientHeight) * 2 + 1;
   }
 
   renderWorld() {

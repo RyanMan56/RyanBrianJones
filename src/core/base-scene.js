@@ -11,6 +11,7 @@ class BaseScene {
     this.scene = null;
     this.camera = null;
     this.controls = null;
+    this.d = 20;
 
     this.init.bind(this);
     this.init();
@@ -42,18 +43,19 @@ class BaseScene {
   }
 
   init() {
+    const canvasContainer = document.querySelector('#main');
+
     // Set up renderer
     const canvas = document.querySelector('#canvas');
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
     this.renderer.setClearColor(richBlack, 1);
     this.renderer.setPixelRatio(window.devicePixelRatio);
 
     // Create scene and camera
     this.scene = new THREE.Scene();
-    const aspect = window.innerWidth / window.innerHeight;
-    const d = 20;
-    this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, -1000, 1000);
+    const aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+    this.camera = new THREE.OrthographicCamera(-this.d * aspect, this.d * aspect, this.d, -this.d, -1000, 1000);
 
     // Set up the camera for isometric projection
     this.resetCamera();
@@ -72,14 +74,14 @@ class BaseScene {
     this.renderWorld();
 
     window.addEventListener('resize', () => {
-      const newAspect = window.innerWidth / window.innerHeight;
+      const newAspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
 
-      this.camera.left = -d * newAspect;
-      this.camera.right = d * newAspect;
+      this.camera.left = -this.d * newAspect;
+      this.camera.right = this.d * newAspect;
       this.camera.aspect = newAspect;
       this.camera.updateProjectionMatrix();
 
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
     });
   }
 }

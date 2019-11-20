@@ -1,6 +1,13 @@
 body {
   margin: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#main {
+  width: 100%;
+  flex: 1;
 }
 
 canvas {
@@ -9,10 +16,7 @@ canvas {
 }
 
 #bottom-panel {
-  position: absolute;
-  display: none;
-  top: 77.5%;
-  height: 22.5%;
+  height: 215px;
   width: 100%;
   background-color: #282c31;
 }

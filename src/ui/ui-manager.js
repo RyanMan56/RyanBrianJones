@@ -122,6 +122,7 @@ class UIManager {
     this.renderer.render(scene, camera);
   }
 
+  // When needed: https://threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html
   render(clock) {
     this.resizeRendererToDisplaySize(this.renderer);
 

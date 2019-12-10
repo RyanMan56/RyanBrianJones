@@ -4,8 +4,9 @@ import { NO_BUILDINGS } from '../helpers/tile-types';
 import { richBlack } from '../colors';
 
 class UIManager {
-  constructor({ tileFactory = null }) {
+  constructor({ tileFactory = null, onTileChange = tile => null }) {
     this.tileFactory = tileFactory;
+    this.onTileChange = onTileChange;
 
     this.tileTypes = null;
     this.uiTiles = [];
@@ -69,6 +70,8 @@ class UIManager {
 
     tile.element.className = this.selectedTile === tile ? 'tile-item' : 'tile-item-selected';
     this.selectedTile = this.selectedTile === tile ? null : tile;
+
+    this.onTileChange(this.selectedTile && this.selectedTile.tileObject.group.clone());
   }
 
   onHeadingClick(type, element) {

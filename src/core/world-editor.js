@@ -11,9 +11,17 @@ class WorldEditor extends BaseScene {
   constructor(props) {
     super(props);
 
-    this.uiManager = new UIManager({ tileFactory: this.tileFactory });
+    this.uiManager = new UIManager({
+      tileFactory: this.tileFactory,
+      onTileChange: (tile) => { this.highlightBlock.setTile(tile); },
+    });
     window.addEventListener('mousemove', e => this.onMouseMove(e), false);
   }
+
+  // onTileChange(tile) {
+  //   console.log(this.highlightBlock);
+  //   this.highlightBlock.setTile(tile);
+  // }
 
   onMouseMove(e) {
     // calculate mouse position in normalized device coordinates
@@ -44,9 +52,11 @@ class WorldEditor extends BaseScene {
       this.scene.add(tile.group);
     });
 
-    const highlightBlock = new HighlightBlock({ position: new Vector3(4.01, 0.21, 4.01) });
-    this.scene.add(highlightBlock.group);
-    highlightBlock.setPosition({ x: 1 });
+    this.highlightBlock = new HighlightBlock({
+      position: new Vector3(4.01, 0.21, 4.01),
+    });
+    this.scene.add(this.highlightBlock.group);
+    this.highlightBlock.setPosition({ x: 1 });
 
     this.scene.add(new AmbientLight(0xffffff, 1));
 
@@ -69,7 +79,7 @@ class WorldEditor extends BaseScene {
 
     const animate = () => {
       requestAnimationFrame(animate);
-      console.log(this.uiManager && this.uiManager.selectedTile);
+      // console.log(this.uiManager && this.uiManager.selectedTile);
       this.controls.update();
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(this.scene.children);
@@ -77,7 +87,7 @@ class WorldEditor extends BaseScene {
       if (planeCollision) {
         const collPointX = Math.round(planeCollision.point.x / 4 - 0.37);
         const collPointZ = Math.round(planeCollision.point.z / 4);
-        highlightBlock.setPosition({ x: collPointX, z: collPointZ });
+        this.highlightBlock.setPosition({ x: collPointX, z: collPointZ });
       }
 
       tiles.forEach((tile) => {

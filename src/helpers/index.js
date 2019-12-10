@@ -85,6 +85,13 @@ export function parseWorldMap(worldMap, tileFactory) {
     return tile;
   });
 
-  console.log(tiles);
   return tiles;
+}
+
+export function worldCoordToTile(position) {
+
+}
+
+export function tileToWorldCoord(position) {
+
 }

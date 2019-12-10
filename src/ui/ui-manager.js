@@ -67,8 +67,8 @@ class UIManager {
       selectedTiles[i].className = 'tile-item';
     }
 
-    tile.element.className = 'tile-item-selected';
-    this.selectedTile = tile;
+    tile.element.className = this.selectedTile === tile ? 'tile-item' : 'tile-item-selected';
+    this.selectedTile = this.selectedTile === tile ? null : tile;
   }
 
   onHeadingClick(type, element) {
@@ -102,27 +102,27 @@ class UIManager {
 
   renderTile(item, clock) {
     const { scene, camera, element, tileObject } = item;
-    
+
     tileObject.update(clock);
     const canvasArea = element.querySelector('.tile-item-canvas');
 
     const { left: tileLeft, bottom: tileBottom, width: tileWidth, height: tileHeight } = canvasArea.getBoundingClientRect();
     const { left: areaLeft, bottom: areaBottom } = document.getElementById('tile-items').getBoundingClientRect();
-      
-      
+
+
     camera.aspect = tileWidth / tileHeight;
     camera.updateProjectionMatrix();
-    
+
     const positiveYUpTileBottom = window.innerHeight - tileBottom;
     const positiveYUpAreaBottom = window.innerHeight - areaBottom;
 
     this.renderer.setScissor(tileLeft - areaLeft, positiveYUpTileBottom - positiveYUpAreaBottom, tileWidth, tileHeight);
     this.renderer.setViewport(tileLeft - areaLeft, positiveYUpTileBottom - positiveYUpAreaBottom, tileWidth, tileHeight);
-      
+
     this.renderer.render(scene, camera);
   }
 
-  // When needed: https://threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html
+  // When needed for scrolling: https://threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html
   render(clock) {
     this.resizeRendererToDisplaySize(this.renderer);
 

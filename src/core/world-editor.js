@@ -69,6 +69,7 @@ class WorldEditor extends BaseScene {
 
     const animate = () => {
       requestAnimationFrame(animate);
+      console.log(this.uiManager && this.uiManager.selectedTile);
       this.controls.update();
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(this.scene.children);
